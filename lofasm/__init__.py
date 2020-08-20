@@ -2,6 +2,7 @@
 
 __all__ = ['lofasm_dat_lib', 'parse_data', 'parse_data_H',
            'animate_lofasm', 'simulate', 'write', 'config',
+           'galaxy_model','station_model',
            'fs']
 # from config import getConfig
 # import platform
