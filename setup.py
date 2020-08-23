@@ -6,7 +6,7 @@ from glob import glob
 import os
 
 galaxy_model_files = [os.path.basename(f) for f in glob('lofasm/galaxy_model/*.dat')]
-
+beam_pattern_files = [os.path.join ("lofasm_bp/",os.path.basename(f)) for f in glob('lofasm/station_model/lofasm_bp/*.pkl')]
 
 setup(
     name='lofasm',
@@ -21,13 +21,15 @@ setup(
               'lofasm.data_file_info',
               'lofasm.calibrate',
               'lofasm.handler',
-              'lofasm.galaxy_model'
+              'lofasm.galaxy_model',
+              'lofasm.station_model',
               ],
     package_dir={'lofasm.simulate': 'lofasm/simulate',
                 'lofasm.galaxy_model': 'lofasm/galaxy_model'
                  },
     package_data={'lofasm.simulate': ['lambda_haslam408_dsds.fits.txt'],
-                'lofasm.galaxy_model': galaxy_model_files
+                'lofasm.galaxy_model': ['lambda_haslam408_dsds.fits'],
+                'lofasm.station_model': beam_pattern_files,
                   },
     scripts=['bin/lofasm_plot.py',
              'bin/loco2bx.py',
