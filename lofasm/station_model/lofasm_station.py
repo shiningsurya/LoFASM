@@ -1,4 +1,5 @@
 import os
+import pkg_resources
 import numpy as np
 import pickle as pkl
 import astropy.time as at
@@ -46,10 +47,12 @@ class LoFASM_Station (object):
     def __quadrature_sum (self, x, y):
         return np.sqrt ( np.power(x, 2) + np.power(y,2) )
 
-    def beam_pattern (self, freq, root_dir="./"):
+    def beam_pattern (self, freq, root_dir=None):
         """
         Reads the pickle file and interpolates the beam pattern
         """
+        if root_dir is None:
+            root_dir = pkg_resources.resource_dir (__name__, 'lofasm_bp')
         FF = "lofasm_bp_{0:d}.pkl"
         with open (os.path.join (root_dir, FF.format(freq)), 'rb') as f:
             # bp = pkl.load (f, encoding='ascii')
