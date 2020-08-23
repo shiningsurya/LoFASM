@@ -76,7 +76,7 @@ class LofasmFile(object):
                 if e.message == 'Not a gzipped file':
                     gz = False
                 else:
-                    raise IOError, e.message
+                    raise IOError (e.message)
         elif mode == 'write':
             gz = True if gz else False
 
@@ -145,7 +145,7 @@ class LofasmFile(object):
             dim2_bins = len(data)
             dim1_bins = 1
         else:
-            raise NotImplementedError, "Currently only up to 2d data is supported."
+            raise NotImplementedError ( "Currently only up to 2d data is supported." )
 
         if self._new_file:
             # set header fields based on new data block for new file
@@ -163,10 +163,10 @@ class LofasmFile(object):
             new_iscplx = np.iscomplexobj(data)
 
             if old_iscplx != new_iscplx:
-                raise ValueError, "new data must match existing data realness"
+                raise ValueError ( "new data must match existing data realness" )
 
             if str(dim2_bins) != str(self.dim2_len):
-                raise ValueError, "new data length for dim2 must match the existing data!"
+                raise ValueError ( "new data length for dim2 must match the existing data!" )
             
             # update header values to reflect new data block dimensions
             # dim2 is left alone since that holds the frequency axis
@@ -332,7 +332,7 @@ class LofasmFile(object):
         missing_keys = self._validate_header()
         if missing_keys:
             errmsg = "header missing required fields: {}".format(', '.join(missing_keys))
-            raise RuntimeError, errmsg
+            raise RuntimeError ( errmsg )
 
 
         N = self.data.size
@@ -359,7 +359,7 @@ class LofasmFile(object):
     ###################
     def _debug(self, msg):
         if self.debug:
-            print msg
+            print ( msg )
             sys.stdout.flush()
 
     def _load_header(self):
@@ -368,14 +368,14 @@ class LofasmFile(object):
             if fsig.startswith('%'):
                 fsig = fsig.strip('%')
             elif self.gz:
-                raise IOError, "Unable to parse file. Unrecognizable file signature. Are you sure compression should be turned on?"
+                raise IOError ( "Unable to parse file. Unrecognizable file signature. Are you sure compression should be turned on?" )
             else:
-                raise IOError, "Unable to parse file. Unrecognizable file signature."
+                raise IOError ( "Unable to parse file. Unrecognizable file signature." )
         except IOError as e:
             if self.gz and e.strerror == 'Not a gzipped file':
-                raise IOError, "Compression parameter is True but input file is not a gzipped file"
+                raise IOError ( "Compression parameter is True but input file is not a gzipped file" )
             else:
-                raise IOError, e.message
+                raise IOError ( e.message )
 
         if fsig not in SUPPORTED_FILE_SIGNATURES:
             raise NotImplementedError("{} is not a supported LoFASM file signature".format(fsig))
